@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VibeFlixHub - Join on Telegram</title>
+<meta name="description" content="Wait a few seconds and continue to the VibeFlixHub Telegram channel.">
+<style>
+  :root { --bg:#f1f4f7; --card:#fff; --ink:#1c2733; --muted:#5d6b7a; --line:#dde3ea; --tg:#1578ad; --ok:#1f9d55; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  header { background: var(--card); border-bottom: 1px solid var(--line); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  header .wrap { height: 56px; display: flex; align-items: center; font-weight: 700; font-size: 1.25rem; }
+  header span { color: var(--tg); }
+  main { padding: 16px 0 32px; display: grid; gap: 16px; }
+
+  .ad { min-height: 100px; display: grid; place-items: center; background: #e8edf2; border: 1px dashed #b8c3cf;
+        color: var(--muted); font-size: .8rem; text-align: center; overflow: hidden; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 24px 20px; }
+  .card h1 { font-size: 1.4rem; line-height: 1.3; margin-bottom: 4px; }
+  .card p { color: var(--muted); }
+
+  .timer { text-align: center; }
+  .count { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin: 12px 0 4px; font-variant-numeric: tabular-nums; }
+  .bar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 12px 0 20px; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--tg); transition: width .25s linear; }
+  .btn { display: block; width: 100%; padding: 14px 16px; border-radius: 8px; background: var(--tg); color: #fff;
+         font-weight: 700; font-size: 1.1rem; text-decoration: none; text-align: center; }
+  .btn[aria-disabled="true"] { background: #b9c3ce; cursor: not-allowed; }
+  .btn.ready { background: var(--ok); }
+  .btn:focus-visible { outline: 3px solid #1c2733; outline-offset: 3px; }
+
+  ol { padding-left: 20px; color: var(--muted); }
+  .card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 0 16px 28px; }
+</style>
+</head>
+<body>
+<header><div class="wrap">Vibe<span>Flix</span>Hub</div></header>
+
+<main class="wrap">
+
+  <!-- AD SLOT 1: top banner -->
+  <div class="ad" aria-label="Advertisement">
+    <!-- PASTE YOUR AD CODE HERE (top banner) -->
+    <span>Ad space (top banner)</span>
+  </div>
+
+  <section class="card timer">
+    <h1 id="title">Please wait, your link is being prepared</h1>
+    <p id="sub">You will be able to continue in a few seconds.</p>
+    <div class="count" id="count">10</div>
+    <div class="bar"><i id="bar"></i></div>
+    <a class="btn" id="go" role="link" aria-disabled="true">Please wait...</a>
+    <noscript><p>Please enable JavaScript to continue.</p></noscript>
+  </section>
+
+  <!-- AD SLOT 2: middle -->
+  <div class="ad" aria-label="Advertisement">
+    <!-- PASTE YOUR AD CODE HERE (middle) -->
+    <span>Ad space (middle)</span>
+  </div>
+
+  <section class="card">
+    <h2>How it works</h2>
+    <ol>
+      <li>Wait for the timer to finish.</li>
+      <li>Tap the <b>Go to Telegram</b> button.</li>
+      <li>Join the VibeFlixHub channel in the Telegram app.</li>
+    </ol>
+  </section>
+
+  <!-- AD SLOT 3: bottom -->
+  <div class="ad" aria-label="Advertisement">
+    <!-- PASTE YOUR AD CODE HERE (bottom) -->
+    <span>Ad space (bottom)</span>
+  </div>
+
+</main>
+
+<footer>&copy; VibeFlixHub. All rights reserved.</footer>
+
+<script>
+(function () {
+  var TARGET = "https://t.me/VibeFlixHub";
+  var SECONDS = 10;          // wait time
+  var AUTO_REDIRECT = false; // true = open Telegram automatically when the timer ends
+
+  var end = Date.now() + SECONDS * 1000;
+  var count = document.getElementById("count");
+  var bar = document.getElementById("bar");
+  var go = document.getElementById("go");
+  var timer = setInterval(update, 200);
+  update();
+
+  function update() {
+    var ms = Math.max(0, end - Date.now());
+    count.textContent = Math.ceil(ms / 1000);
+    bar.style.width = (100 - ms / (SECONDS * 10)) + "%";
+    if (ms === 0) finish();
+  }
+
+  function finish() {
+    clearInterval(timer);
+    count.textContent = "0";
+    document.getElementById("title").textContent = "Your link is ready!";
+    document.getElementById("sub").textContent = "Tap the button below to continue.";
+    go.href = TARGET;
+    go.removeAttribute("aria-disabled");
+    go.classList.add("ready");
+    go.textContent = "Go to Telegram";
+    if (AUTO_REDIRECT) window.location.href = TARGET;
+  }
+
+  go.addEventListener("click", function (e) {
+    if (go.getAttribute("aria-disabled") === "true") e.preventDefault();
+  });
+})();
+</script>
+</body>
+</html>
