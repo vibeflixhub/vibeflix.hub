@@ -8,90 +8,164 @@
 <style>
   :root { --bg:#f1f4f7; --card:#fff; --ink:#1c2733; --muted:#5d6b7a; --line:#dde3ea; --tg:#1578ad; --ok:#1f9d55; }
   * { box-sizing: border-box; margin: 0; }
+  html { scroll-padding-bottom: 80px; }
   body { background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  body.has-sticky { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+  [hidden] { display: none !important; }
   header { background: var(--card); border-bottom: 1px solid var(--line); }
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
   header .wrap { height: 56px; display: flex; align-items: center; font-weight: 700; font-size: 1.25rem; }
   header span { color: var(--tg); }
-  main { padding: 16px 0 32px; display: grid; gap: 16px; }
+  main { padding: 16px 0 32px; display: grid; gap: 24px; }
 
-  .ad { min-height: 100px; display: grid; place-items: center; background: #e8edf2; border: 1px dashed #b8c3cf;
-        color: var(--muted); font-size: .8rem; text-align: center; overflow: hidden; }
+  /* Ad slots (space is reserved so the page does not jump when ads load) */
+  .slot { display: grid; gap: 4px; justify-items: center; }
+  .lbl { font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .ad { width: 100%; display: grid; place-items: center; overflow: hidden; color: var(--muted); font-size: .8rem; text-align: center; }
+  .ad-top    { min-height: 60px; }
+  .ad-native { display: block; min-height: 120px; }
+  .ad-bottom { min-height: 250px; max-width: 336px; }
+
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 24px 20px; }
   .card h1 { font-size: 1.4rem; line-height: 1.3; margin-bottom: 4px; }
-  .card p { color: var(--muted); }
+  .card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  .card p, ol { color: var(--muted); }
+  ol { padding-left: 20px; }
+  .center { text-align: center; }
 
-  .timer { text-align: center; }
   .count { font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin: 12px 0 4px; font-variant-numeric: tabular-nums; }
   .bar { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 12px 0 20px; }
   .bar i { display: block; height: 100%; width: 0; background: var(--tg); transition: width .25s linear; }
-  .btn { display: block; width: 100%; padding: 14px 16px; border-radius: 8px; background: var(--tg); color: #fff;
-         font-weight: 700; font-size: 1.1rem; text-decoration: none; text-align: center; }
-  .btn[aria-disabled="true"] { background: #b9c3ce; cursor: not-allowed; }
+
+  .btn { display: block; width: 100%; padding: 14px 16px; border: 0; border-radius: 8px; background: var(--tg); color: #fff;
+         font: 700 1.1rem system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; text-decoration: none; text-align: center; cursor: pointer; }
+  .btn:disabled { background: #b9c3ce; cursor: not-allowed; }
   .btn.ready { background: var(--ok); }
   .btn:focus-visible { outline: 3px solid #1c2733; outline-offset: 3px; }
+  #final { border: 2px solid var(--ok); scroll-margin-top: 12vh; }
+  #final .btn { margin-top: 16px; }
 
-  ol { padding-left: 20px; color: var(--muted); }
-  .card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  /* Sticky bottom banner */
+  .sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: #fff; border-top: 1px solid var(--line);
+            display: flex; justify-content: center; align-items: center; min-height: 58px;
+            padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); }
+  .sticky .ad { max-width: 320px; min-height: 50px; }
+  .sticky .x { position: absolute; top: -32px; right: 8px; width: 36px; height: 32px; border: 1px solid var(--line);
+               border-bottom: 0; border-radius: 8px 8px 0 0; background: #fff; color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer; }
+
   footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 0 16px 28px; }
 </style>
 </head>
-<body>
+<body class="has-sticky">
 <header><div class="wrap">Vibe<span>Flix</span>Hub</div></header>
 
 <main class="wrap">
 
-  <!-- AD SLOT 1: top banner -->
-  <div class="ad" aria-label="Advertisement">
-    <!-- PASTE YOUR AD CODE HERE (top banner) -->
-    <span>Ad space (top banner)</span>
+  <!-- AD 1: TOP BANNER (320x50) -->
+  <div class="slot">
+    <span class="lbl">Advertisement</span>
+    <div class="ad ad-top">
+      <script>
+        atOptions = {
+          'key' : 'b9976009f815854a99aacaa5559866c1',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://brijmohan.org/22/b9976009f815854a99aacaa5559866c1"></script>
+    </div>
   </div>
 
-  <section class="card timer">
+  <!-- STEP 1: timer, then the Continue button -->
+  <section class="card center">
     <h1 id="title">Please wait, your link is being prepared</h1>
-    <p id="sub">You will be able to continue in a few seconds.</p>
+    <p id="sub">The Continue button will appear in a few seconds.</p>
     <div class="count" id="count">10</div>
     <div class="bar"><i id="bar"></i></div>
-    <a class="btn" id="go" role="link" aria-disabled="true">Please wait...</a>
+    <button class="btn" id="cont" type="button" disabled>Please wait...</button>
     <noscript><p>Please enable JavaScript to continue.</p></noscript>
   </section>
 
-  <!-- AD SLOT 2: middle -->
-  <div class="ad" aria-label="Advertisement">
-    <!-- PASTE YOUR AD CODE HERE (middle) -->
-    <span>Ad space (middle)</span>
-  </div>
+  <!-- AD 2: NATIVE "RECOMMENDED" BLOCK (1:4 widget) -->
+  <section class="slot">
+    <span class="lbl">Recommended &middot; Sponsored</span>
+    <div class="ad ad-native">
+      <div id="container-c8cd5608b87af20510be9c971895dc7e"></div>
+      <script async="async" data-cfasync="false" src="https://brijmohan.org/21/c8cd5608b87af20510be9c971895dc7e"></script>
+    </div>
+  </section>
 
   <section class="card">
     <h2>How it works</h2>
     <ol>
       <li>Wait for the timer to finish.</li>
-      <li>Tap the <b>Go to Telegram</b> button.</li>
-      <li>Join the VibeFlixHub channel in the Telegram app.</li>
+      <li>The page scrolls down by itself (or tap <b>Continue</b>).</li>
+      <li>Telegram opens automatically (or tap <b>Go to Telegram</b>).</li>
     </ol>
   </section>
 
-  <!-- AD SLOT 3: bottom -->
-  <div class="ad" aria-label="Advertisement">
-    <!-- PASTE YOUR AD CODE HERE (bottom) -->
-    <span>Ad space (bottom)</span>
+  <!-- STEP 2: appears (and the page scrolls here) after Continue is tapped -->
+  <section class="card center" id="final" hidden>
+    <h2>Almost done!</h2>
+    <p>Opening Telegram... If nothing happens, tap the button below.</p>
+    <a class="btn ready" id="go">Go to Telegram</a>
+  </section>
+
+  <!-- AD 3: BOTTOM BANNER (300x250) -->
+  <div class="slot">
+    <span class="lbl">Advertisement</span>
+    <div class="ad ad-bottom">
+      <script>
+        atOptions = {
+          'key' : '04eb13886ce757ba8d65ba141dbde844',
+          'format' : 'iframe',
+          'height' : 250,
+          'width' : 300,
+          'params' : {}
+        };
+      </script>
+      <script src="https://brijmohan.org/22/04eb13886ce757ba8d65ba141dbde844"></script>
+    </div>
   </div>
 
 </main>
 
 <footer>&copy; VibeFlixHub. All rights reserved.</footer>
 
+<!-- AD 4: STICKY BANNER (320x50), can be closed -->
+<div class="sticky" id="sticky">
+  <button class="x" id="closeSticky" type="button" aria-label="Close ad">&times;</button>
+  <div class="ad">
+    <script>
+      atOptions = {
+        'key' : 'b9976009f815854a99aacaa5559866c1',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script src="https://brijmohan.org/22/b9976009f815854a99aacaa5559866c1"></script>
+  </div>
+</div>
+
 <script>
 (function () {
   var TARGET = "https://t.me/VibeFlixHub";
-  var SECONDS = 10;          // wait time
-  var AUTO_REDIRECT = false; // true = open Telegram automatically when the timer ends
+  var SECONDS = 10;                     // wait time before Continue appears
+  var AUTO_CLICK = true;                // true = "Go to Telegram" is clicked automatically after the scroll
+  var AUTO_CLICK_DELAY = 1000;          // ms to wait after the scroll before the auto click (0 = immediately)
+  var clicked = false;
 
   var end = Date.now() + SECONDS * 1000;
   var count = document.getElementById("count");
   var bar = document.getElementById("bar");
+  var cont = document.getElementById("cont");
+  var final = document.getElementById("final");
   var go = document.getElementById("go");
-  var timer = setInterval(update, 200);
+  var timer = setInterval(update, 100);
   update();
 
   function update() {
@@ -105,16 +179,31 @@
     clearInterval(timer);
     count.textContent = "0";
     document.getElementById("title").textContent = "Your link is ready!";
-    document.getElementById("sub").textContent = "Tap the button below to continue.";
-    go.href = TARGET;
-    go.removeAttribute("aria-disabled");
-    go.classList.add("ready");
-    go.textContent = "Go to Telegram";
-    if (AUTO_REDIRECT) window.location.href = TARGET;
+    document.getElementById("sub").textContent = "Scrolling down, then Telegram will open...";
+    cont.disabled = false;
+    cont.classList.add("ready");
+    cont.textContent = "Continue \u2193";
+    setTimeout(reveal, 300);            // timer done: scroll down automatically
   }
 
-  go.addEventListener("click", function (e) {
-    if (go.getAttribute("aria-disabled") === "true") e.preventDefault();
+  // Show the Go to Telegram card and scroll down to it
+  function reveal() {
+    go.href = TARGET;
+    final.hidden = false;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    final.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    if (AUTO_CLICK && !clicked) {
+      clicked = true;
+      setTimeout(function () { go.click(); }, AUTO_CLICK_DELAY);
+    }
+  }
+
+  // Continue button: same thing, in case the visitor scrolled back up
+  cont.addEventListener("click", reveal);
+
+  document.getElementById("closeSticky").addEventListener("click", function () {
+    document.getElementById("sticky").remove();
+    document.body.classList.remove("has-sticky");
   });
 })();
 </script>
